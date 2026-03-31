@@ -1,9 +1,13 @@
 🌌 Projeto: Sistema Solar 2D Interativo com Canvas
+
 aluno: Miguel Loureiro Aquino de Menezes
+
 prof: Pedro Ximenes
+
 📌 Descrição
 Este projeto consiste na criação de uma cena 2D interativa utilizando HTML, JavaScript e o elemento Canvas. O objetivo é demonstrar o uso de transformações geométricas (translação, rotação e escala), conforme aprendido em aula.
 O tema escolhido foi um Sistema Solar, contendo:
+
 ☀️ Sol central
 🌍 Planeta orbitando o sol
 🌙 Lua orbitando o planeta
@@ -19,10 +23,12 @@ Composição de transformações
 Transformações com ponto fixo
 Animação com controle de matriz
 
+
 🛠️ Tecnologias Utilizadas
 HTML5
 JavaScript
 Canvas 2D
+
 
 🔄 Transformações Utilizadas
 🔹 1. Translação (ctx.translate)
