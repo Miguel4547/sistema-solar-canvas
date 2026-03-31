@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Sistema Solar 2D</title>
+<style>
+  canvas {
+    background: radial-gradient(circle, #000010, #000000);
+    display: block;
+    margin: auto;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let angle = 0;
+let moonAngle = 0;
+
+// Nave
+let shipX = 400;
+let shipY = 500;
+let shipAngle = 0;
+
+// Estrelas
+let stars = Array.from({length: 100}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height
+}));
+
+// Controle teclado
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") {
+    shipX -= 10;
+    shipAngle = -0.3;
+  }
+  if (e.key === "ArrowRight") {
+    shipX += 10;
+    shipAngle = 0.3;
+  }
+  if (e.key === "ArrowUp") shipY -= 10;
+  if (e.key === "ArrowDown") shipY += 10;
+});
+
+// ⭐ Estrelas
+function drawStars() {
+  ctx.fillStyle = "white";
+  stars.forEach(s => {
+    ctx.fillRect(s.x, s.y, 2, 2);
+  });
+}
+
+// ☀️ Sol com brilho
+function drawSun() {
+  let gradient = ctx.createRadialGradient(0, 0, 10, 0, 0, 50);
+  gradient.addColorStop(0, "yellow");
+  gradient.addColorStop(1, "orange");
+
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(0, 0, 40, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// 🌍 Planeta
+function drawPlanet() {
+  ctx.fillStyle = "blue";
+  ctx.beginPath();
+  ctx.arc(0, 0, 20, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// 🌙 Lua
+function drawMoon() {
+  ctx.fillStyle = "gray";
+  ctx.beginPath();
+  ctx.arc(0, 0, 10, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// 🚀 Nave
+function drawShip() {
+  ctx.save();
+  ctx.translate(shipX, shipY);
+  ctx.rotate(shipAngle);
+
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  ctx.moveTo(0, -12);
+  ctx.lineTo(-10, 10);
+  ctx.lineTo(10, 10);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// 🎬 Loop principal
+function draw() {
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawStars();
+
+  // SOL
+  ctx.save();
+  ctx.translate(400, 300);
+  drawSun();
+
+  // ÓRBITA DO PLANETA
+  ctx.rotate(angle);
+
+  ctx.save();
+  ctx.translate(150, 0);
+
+  drawPlanet();
+
+  // LUA (hierarquia)
+  ctx.rotate(moonAngle);
+
+  ctx.save();
+  ctx.translate(50, 0);
+  ctx.scale(0.6, 0.6);
+  drawMoon();
+  ctx.restore();
+
+  ctx.restore();
+  ctx.restore();
+
+  drawShip();
+
+  angle += 0.01;
+  moonAngle += 0.03;
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
